@@ -56,8 +56,7 @@ const Piano = () => {
 
   const releaseKey = () => {
     if (activeNotes.length > 0) {
-      activeNotes.shift();
-      const temp = activeNotes;
+      const temp = notesRef.current.slice(1);
       setActiveNotes([...temp]);
     }
   };
