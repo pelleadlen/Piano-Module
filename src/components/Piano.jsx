@@ -3,7 +3,7 @@ import * as Tone from "tone";
 import { useEffect, useRef, useState } from "react";
 
 const notes = [
-  { note: "C4", class: "white-key", keyCode: 65 },
+  { note: "C4", class: "white-key rounded-left", keyCode: 65 },
   { note: "C#4", class: "black-key", keyCode: 87 },
   { note: "D4", class: "white-key", keyCode: 83 },
   { note: "D#4", class: "black-key", keyCode: 69 },
@@ -15,7 +15,7 @@ const notes = [
   { note: "A4", class: "white-key", keyCode: 72 },
   { note: "A#4", class: "black-key", keyCode: 85 },
   { note: "B4", class: "white-key", keyCode: 74 },
-  { note: "C5", class: "white-key", keyCode: 75 },
+  { note: "C5", class: "white-key rounded-right", keyCode: 75 },
 ];
 
 const Piano = () => {
