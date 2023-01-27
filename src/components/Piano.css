@@ -30,3 +30,7 @@
 .active {
   background: #e2c4ff;
 }
+
+#root {
+  background-color: #000;
+}

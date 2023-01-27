@@ -48,8 +48,7 @@ const Piano = () => {
   }).toDestination();
 
   function play(note) {
-    const temp = [...notesRef.current, note];
-    setActiveNotes(temp);
+    setActiveNotes([...notesRef.current, note]);
     Tone.loaded().then(() => {
       // Use the triggerAttackRelease method to play the sound
       pianos.triggerAttackRelease(`${note}`, 4);
@@ -58,8 +57,7 @@ const Piano = () => {
 
   const releaseKey = () => {
     if (activeNotes.length > 0) {
-      const temp = notesRef.current.slice(1);
-      setActiveNotes([...temp]);
+      setActiveNotes([...notesRef.current.slice(1)]);
     }
   };
 
@@ -92,10 +90,6 @@ const Piano = () => {
             }`}
           />
         ))}
-      </div>
-      <div>
-        <p>active</p>
-        <p>{JSON.stringify(activeNotes, null, 2)}</p>
       </div>
     </>
   );
