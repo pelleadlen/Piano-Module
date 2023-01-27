@@ -1,6 +1,6 @@
 import "./Piano.css";
 import * as Tone from "tone";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const notes = [
   { note: "C4", class: "white-key", keyCode: 65 },
@@ -19,8 +19,22 @@ const notes = [
 ];
 
 const Piano = () => {
-  const [activeNote, setActiveNote] = useState("");
+  const [activeNotes, _setActiveNotes] = useState([]);
+  const notesRef = useRef(activeNotes);
 
+  const setActiveNotes = (data) => {
+    notesRef.current = data;
+    _setActiveNotes(data);
+  };
+
+  useEffect(() => {
+    // schedule release for the first in line if there's any keys active
+    if (activeNotes.length > 0) {
+      setTimeout(() => {
+        releaseKey();
+      }, 2000);
+    }
+  }, [activeNotes]);
   const pianos = new Tone.Sampler({
     urls: {
       C4: "C4.mp3",
@@ -29,18 +43,24 @@ const Piano = () => {
       A4: "A4.mp3",
     },
     // Release is the amount of time it takes for the sound to fade out after the note is released
-    release: 1,
+    release: 2,
     baseUrl: "https://tonejs.github.io/audio/salamander/",
   }).toDestination();
 
   function play(note) {
-    setActiveNote(note);
     Tone.loaded().then(() => {
       // Use the triggerAttackRelease method to play the sound
       pianos.triggerAttackRelease(`${note}`, 4);
     });
-    console.log(note);
   }
+
+  const releaseKey = () => {
+    if (activeNotes.length > 0) {
+      activeNotes.shift();
+      const temp = activeNotes;
+      setActiveNotes([...temp]);
+    }
+  };
 
   useEffect(() => {
     // Listen for keydown events on the document
@@ -56,10 +76,11 @@ const Piano = () => {
     // Find the note that matches the keyCode
     const note = notes.find((n) => n.keyCode === e.keyCode);
     if (note) {
+      const temp = [...notesRef.current, note.note];
+      setActiveNotes(temp);
       play(note.note);
     }
   }
-
   return (
     <>
       <div className="piano">
@@ -68,10 +89,14 @@ const Piano = () => {
             key={index}
             onClick={() => play(note.note)}
             className={`${note.class} ${
-              note.note === activeNote ? "active" : ""
+              activeNotes.includes(note.note) ? "active" : ""
             }`}
           />
         ))}
+      </div>
+      <div>
+        <p>active</p>
+        <p>{JSON.stringify(activeNotes, null, 2)}</p>
       </div>
     </>
   );
