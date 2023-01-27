@@ -48,6 +48,8 @@ const Piano = () => {
   }).toDestination();
 
   function play(note) {
+    const temp = [...notesRef.current, note];
+    setActiveNotes(temp);
     Tone.loaded().then(() => {
       // Use the triggerAttackRelease method to play the sound
       pianos.triggerAttackRelease(`${note}`, 4);
@@ -75,8 +77,6 @@ const Piano = () => {
     // Find the note that matches the keyCode
     const note = notes.find((n) => n.keyCode === e.keyCode);
     if (note) {
-      const temp = [...notesRef.current, note.note];
-      setActiveNotes(temp);
       play(note.note);
     }
   }
