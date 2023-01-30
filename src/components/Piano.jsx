@@ -32,7 +32,7 @@ const Piano = () => {
     if (activeNotes.length > 0) {
       setTimeout(() => {
         releaseKey();
-      }, 2000);
+      }, 500);
     }
   }, [activeNotes]);
   const pianos = new Tone.Sampler({
@@ -43,7 +43,7 @@ const Piano = () => {
       A4: "A4.mp3",
     },
     // Release is the amount of time it takes for the sound to fade out after the note is released
-    release: 2,
+    release: 1,
     baseUrl: "https://tonejs.github.io/audio/salamander/",
   }).toDestination();
 
